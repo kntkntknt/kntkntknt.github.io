@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ストック</title>
+<style>
+  :root { --bg:#2A5E4C; --card:#F6F3EE; --ink:#3E3328; --accent:#2E6B57; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:var(--bg); font-family:-apple-system, "Hiragino Sans", sans-serif; color:var(--ink); }
+  main { background:var(--card); border-radius:24px; padding:28px 24px; margin:16px; max-width:420px; }
+  h1 { font-size:20px; margin:0 0 12px; }
+  p { font-size:15px; line-height:1.7; margin:0 0 14px; }
+  a.button { display:block; text-align:center; background:var(--accent); color:#fff; text-decoration:none;
+             padding:14px; border-radius:14px; font-weight:600; margin:18px 0 10px; }
+  small { color:#7a6f63; font-size:13px; line-height:1.6; display:block; }
+</style>
+</head>
+<body>
+<main id="tag" hidden>
+  <h1>ストックのシールです</h1>
+  <p>アプリが開かず、このページが出ました。下のボタンでアプリに渡せます。</p>
+  <a class="button" id="open" href="#">アプリで開く</a>
+  <small>毎回このページが出るときは、iPhoneの「ストック」を一度消して入れ直してください。
+  アプリが無い場合は、App Store で「ストック」を入れてください。<br>
+  This is a Stock sticker. Tap the button to open it in the app.</small>
+</main>
+<main id="other" hidden>
+  <h1>ページが見つかりません</h1>
+  <p>Page not found.</p>
+</main>
+<script>
+  // シールのURL(/t/<ID>)なら、アプリのURLに置き換えて渡す。勝手に開くと、アプリが無いときに Safari がエラーを出すのでボタンにする
+  var m = location.pathname.match(/^\/t\/([a-z0-9]{6,20})\/?$/);
+  if (m) {
+    document.getElementById('open').href = 'stockapp://t/' + m[1];
+    document.getElementById('tag').hidden = false;
+  } else {
+    document.getElementById('other').hidden = false;
+  }
+</script>
+</body>
+</html>

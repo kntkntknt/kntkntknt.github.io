@@ -3,7 +3,7 @@
     "details": [
       {
         "appIDs": [ "AKT7ATBQP7.com.kentoshinohara.stock" ],
-        "components": [ { "/": "/t/*" } ]
+        "components": [ { "/": "/t/*" }, { "/": "/j/*" } ]
       }
     ]
   }

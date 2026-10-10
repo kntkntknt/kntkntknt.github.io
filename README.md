@@ -4,8 +4,9 @@ iOSアプリ「ストック」のUniversal Link用の設定ファイルと、人
 
 - `privacy/` プライバシーポリシー(App Store の提出に必須。アプリの「家族」の画面からも開く)
 - `404.html` シールのURL(`/t/<ID>`)でアプリが開かなかったときの逃げ道。アプリで開くボタンを出す
+- `j/` 家族の招待のリンク(`/j/?openExternalBrowser=1#<印>`)。アプリが開かなかったときに「かざしで開く」ボタンを出す。印は # の後ろなのでサーバーに届かない
 
-- `.well-known/apple-app-site-association` タグのURL `https://kntkntknt.github.io/t/<ID>` をアプリに結びつける
+- `.well-known/apple-app-site-association` タグのURL `https://kntkntknt.github.io/t/<ID>` と招待のURL `/j/` をアプリに結びつける
 - `.nojekyll` これが無いとGitHub Pagesが `.well-known` を公開しない
 
 消すと、新しくアプリを入れたiPhoneでタグが反応しなくなる。

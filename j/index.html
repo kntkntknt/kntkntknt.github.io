@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
-<title>かざし 家族の在庫への招待</title>
-<meta property="og:title" content="かざし 家族の在庫への招待">
-<meta property="og:description" content="開いて「参加する」を押すと、家族と同じ在庫を使えます。">
+<title>かざし 家族の在庫への招待 / NFC Stock invitation</title>
+<meta property="og:title" content="かざし 家族の在庫への招待 / NFC Stock: Join my household">
+<meta property="og:description" content="開いて「参加する」を押すと、家族と同じ在庫を使えます。 Open the link and tap Join to share the same stock.">
 <style>
   :root { --bg:#2A5E4C; --card:#F6F3EE; --ink:#3E3328; --accent:#2E6B57; }
   body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
@@ -24,21 +24,45 @@
 </head>
 <body>
 <main id="invite" hidden>
-  <h1>家族の在庫への招待です</h1>
-  <p>下のボタンを押すと「かざし」が開きます。出てきた画面で「参加する」を押してください。</p>
-  <a class="button" id="open" href="#">かざしで開く</a>
+  <h1 data-t="title"></h1>
+  <p data-t="lead"></p>
+  <a class="button" id="open" href="#" data-t="open"></a>
   <ol>
-    <li>アプリがまだ無いときは、先に App Store で「かざし」を入れてください。</li>
-    <li>入れたら、もう一度このリンクを開いてください。</li>
+    <li data-t="step1"></li>
+    <li data-t="step2"></li>
   </ol>
-  <small>うまく開かないときは、<a id="icloud" href="#">こちら</a>から iCloud の招待を開いてください。<br>
-  This is an invitation to share a household stock in NFC Stock. Tap the button to open it in the app.</small>
+  <small><span data-t="fallback"></span> <a id="icloud" href="#" data-t="fallbackLink"></a></small>
 </main>
 <main id="other" hidden>
-  <h1>招待のリンクが途中で切れています</h1>
-  <p>送られてきたリンクを、最後まで全部コピーして開いてください。</p>
+  <h1 data-t="brokenTitle"></h1>
+  <p data-t="brokenLead"></p>
 </main>
 <script>
+  // 開いた人の言語で出す(日本語以外は英語)
+  var ja = /^ja/i.test(navigator.language || '');
+  var T = ja ? {
+    title: '家族の在庫への招待です',
+    lead: '下のボタンを押すと「かざし」が開きます。出てきた画面で「参加する」を押してください。',
+    open: 'かざしで開く',
+    step1: 'アプリがまだ無いときは、先に App Store で「かざし」を入れてください。',
+    step2: '入れたら、もう一度このリンクを開いてください。',
+    fallback: 'うまく開かないときは、',
+    fallbackLink: 'こちらから iCloud の招待を開いてください。',
+    brokenTitle: '招待のリンクが途中で切れています',
+    brokenLead: '送られてきたリンクを、最後まで全部コピーして開いてください。'
+  } : {
+    title: 'You’re invited to a shared household',
+    lead: 'Tap the button to open NFC Stock, then tap Join.',
+    open: 'Open in NFC Stock',
+    step1: 'Don’t have the app yet? Get “NFC Stock” on the App Store first.',
+    step2: 'Then open this link again.',
+    fallback: 'If it doesn’t open,',
+    fallbackLink: 'open the iCloud invitation instead.',
+    brokenTitle: 'This invitation link is incomplete',
+    brokenLead: 'Copy the whole link you received and open it again.'
+  };
+  document.documentElement.lang = ja ? 'ja' : 'en';
+  document.querySelectorAll('[data-t]').forEach(function (el) { el.textContent = T[el.dataset.t]; });
   // 招待の印は # の後ろにある(# より後ろはサーバーに送られない)。英数字と - _ だけ受け付ける
   var t = location.hash.slice(1);
   if (/^[A-Za-z0-9_-]{8,128}$/.test(t)) {
